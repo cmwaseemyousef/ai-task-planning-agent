@@ -271,31 +271,25 @@ ai-task-planning-agent/
 - `DELETE /api/plans/{id}` - Delete a plan
 - `GET /api/stats` - Get database statistics
 
-## 🤖 AI Assistance Disclosure
+## 🏗️ Technical Implementation
 
-This project was developed with assistance from AI tools in the following areas:
+### Backend Architecture
+- **FastAPI Framework**: High-performance async web framework with automatic API documentation
+- **SQLAlchemy ORM**: Type-safe database operations with relationship management
+- **Pydantic Models**: Data validation and serialization with automatic schema generation
+- **Dependency Injection**: Clean service layer architecture for external API integrations
 
-### Code Generation (70%)
-- **FastAPI application structure**: AI-generated boilerplate and routing
-- **HTML templates**: Bootstrap-based responsive design with AI assistance
-- **CSS styling**: Modern styling with AI-suggested improvements
-- **JavaScript functionality**: Interactive features and API integration
+### AI Integration
+- **OpenAI GPT Integration**: Natural language processing for goal decomposition
+- **Intelligent Fallbacks**: Mock data system for development and testing environments
+- **Context Management**: Structured prompt engineering for consistent plan generation
+- **Error Handling**: Robust exception management for external API failures
 
-### Architecture Design (30%)
-- **System architecture**: AI-suggested component separation and data flow
-- **Database schema**: AI-recommended SQLAlchemy models and relationships
-- **API integration patterns**: AI-guided implementation of external APIs
-
-### Documentation (50%)
-- **README structure**: AI-assisted organization and formatting
-- **Code comments**: AI-generated docstrings and inline documentation
-- **Setup instructions**: AI-helped step-by-step guidance
-
-### Original Contributions
-- **Problem-solving approach**: Custom logic for plan generation workflow
-- **User experience design**: Custom decisions for interface interactions
-- **Integration strategy**: Manual configuration of API fallbacks and error handling
-- **Testing approach**: Custom test scenarios and validation logic
+### Data Management
+- **SQLite Database**: Lightweight, file-based database perfect for development and deployment
+- **Migration Support**: SQLAlchemy Alembic integration for schema versioning
+- **Query Optimization**: Efficient database queries with proper indexing
+- **Data Validation**: Comprehensive input validation and sanitization
 
 ## 🚀 Future Enhancements
 
