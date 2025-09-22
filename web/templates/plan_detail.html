@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}Plan: {{ plan.plan_data.goal[:50] }}...{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <!-- Plan Header -->
+        <div class="card shadow-sm mb-4">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <h1 class="h3 mb-0">
+                        <i class="fas fa-bullseye text-primary me-2"></i>
+                        Your Plan
+                    </h1>
+                    <span class="badge bg-success">Plan #{{ plan.id }}</span>
+                </div>
+                
+                <blockquote class="blockquote mb-3">
+                    <p class="lead">"{{ plan.plan_data.goal }}"</p>
+                </blockquote>
+                
+                <div class="row text-center">
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="border rounded p-3">
+                            <i class="fas fa-list-ol text-info fa-2x mb-2"></i>
+                            <div class="h5 mb-0">{{ plan.plan_data.total_steps }}</div>
+                            <small class="text-muted">Steps</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="border rounded p-3">
+                            <i class="fas fa-clock text-warning fa-2x mb-2"></i>
+                            <div class="h6 mb-0">{{ plan.plan_data.estimated_total_duration }}</div>
+                            <small class="text-muted">Duration</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="border rounded p-3">
+                            <i class="fas fa-search text-success fa-2x mb-2"></i>
+                            <div class="h6 mb-0">
+                                {% if plan.plan_data.metadata.has_web_research %}Yes{% else %}No{% endif %}
+                            </div>
+                            <small class="text-muted">Research</small>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="border rounded p-3">
+                            <i class="fas fa-cloud-sun text-info fa-2x mb-2"></i>
+                            <div class="h6 mb-0">
+                                {% if plan.plan_data.metadata.has_weather_info %}Yes{% else %}No{% endif %}
+                            </div>
+                            <small class="text-muted">Weather</small>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="text-muted small">
+                    <i class="fas fa-calendar me-1"></i>
+                    Created: {{ plan.created_at }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Plan Steps -->
+        {% for step in plan.plan_data.steps %}
+        <div class="card mb-4 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex align-items-start">
+                    <div class="flex-shrink-0">
+                        <div class="step-number bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 40px; height: 40px; font-weight: bold;">
+                            {{ step.step_number }}
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 ms-3">
+                        <h5 class="card-title mb-2">{{ step.title }}</h5>
+                        <p class="card-text">{{ step.description }}</p>
+                        
+                        {% if step.estimated_duration %}
+                        <div class="mb-3">
+                            <span class="badge bg-outline-secondary">
+                                <i class="fas fa-clock me-1"></i>
+                                {{ step.estimated_duration }}
+                            </span>
+                        </div>
+                        {% endif %}
+
+                        <!-- Web Research Results -->
+                        {% if step.web_research %}
+                        <div class="alert alert-info">
+                            <h6 class="alert-heading">
+                                <i class="fas fa-search me-2"></i>
+                                Research Information
+                            </h6>
+                            {% for result in step.web_research %}
+                            <div class="mb-2">
+                                <strong>{{ result.title }}</strong><br>
+                                <small class="text-muted">{{ result.snippet }}</small>
+                                {% if result.url != 'https://example.com/search' %}
+                                <br><a href="{{ result.url }}" target="_blank" class="small">Read more</a>
+                                {% endif %}
+                            </div>
+                            {% if not loop.last %}<hr class="my-2">{% endif %}
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+
+                        <!-- Weather Information -->
+                        {% if step.weather_info %}
+                        <div class="alert alert-warning">
+                            <h6 class="alert-heading">
+                                <i class="fas fa-cloud-sun me-2"></i>
+                                Weather Forecast - {{ step.weather_info.location }}
+                            </h6>
+                            {% if step.weather_info.daily_forecasts %}
+                                <div class="row">
+                                    {% for forecast in step.weather_info.daily_forecasts[:3] %}
+                                    <div class="col-md-4 mb-2">
+                                        <div class="card border-light">
+                                            <div class="card-body p-2 text-center">
+                                                <div class="small fw-bold">{{ forecast.date }}</div>
+                                                <div class="text-muted small">{{ forecast.description }}</div>
+                                                <div class="small">
+                                                    <span class="text-danger">{{ "%.0f"|format(forecast.max_temp) }}°</span> / 
+                                                    <span class="text-primary">{{ "%.0f"|format(forecast.min_temp) }}°</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <p class="mb-0">
+                                    Current: {{ "%.0f"|format(step.weather_info.temperature) }}°C, 
+                                    {{ step.weather_info.description }}
+                                </p>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Action Buttons -->
+        <div class="card">
+            <div class="card-body text-center">
+                <a href="/" class="btn btn-primary me-3">
+                    <i class="fas fa-plus me-2"></i>
+                    Create New Plan
+                </a>
+                <a href="/plans" class="btn btn-outline-secondary">
+                    <i class="fas fa-list me-2"></i>
+                    View All Plans
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

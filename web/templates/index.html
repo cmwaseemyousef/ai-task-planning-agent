@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block title %}AI Task Planning Agent - Create Your Plan{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="text-center mb-5">
+            <h1 class="display-4">
+                <i class="fas fa-lightbulb text-warning me-3"></i>
+                AI Task Planner
+            </h1>
+            <p class="lead text-muted">
+                Transform your goals into actionable plans with AI assistance
+            </p>
+        </div>
+
+        <div class="card shadow-lg">
+            <div class="card-body p-5">
+                <form action="/create-plan" method="POST" id="goalForm">
+                    <div class="mb-4">
+                        <label for="goal" class="form-label h5">
+                            <i class="fas fa-target me-2"></i>
+                            What would you like to plan?
+                        </label>
+                        <textarea 
+                            class="form-control form-control-lg" 
+                            id="goal" 
+                            name="goal" 
+                            rows="4" 
+                            placeholder="e.g., Plan a 3-day trip to Jaipur with cultural highlights and good food"
+                            required
+                        ></textarea>
+                        <div class="form-text">
+                            Be specific! The more details you provide, the better your plan will be.
+                        </div>
+                    </div>
+                    
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-magic me-2"></i>
+                            Generate Plan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-md-4 text-center mb-4">
+                <div class="card h-100 border-0">
+                    <div class="card-body">
+                        <i class="fas fa-search fa-3x text-info mb-3"></i>
+                        <h5>Web Research</h5>
+                        <p class="text-muted">
+                            Enriches your plan with current information from the web
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="card h-100 border-0">
+                    <div class="card-body">
+                        <i class="fas fa-cloud-sun fa-3x text-warning mb-3"></i>
+                        <h5>Weather Info</h5>
+                        <p class="text-muted">
+                            Includes weather forecasts for location-based plans
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-center mb-4">
+                <div class="card h-100 border-0">
+                    <div class="card-body">
+                        <i class="fas fa-tasks fa-3x text-success mb-3"></i>
+                        <h5>Structured Planning</h5>
+                        <p class="text-muted">
+                            Breaks down goals into clear, actionable steps
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5">
+            <h4 class="mb-3">
+                <i class="fas fa-lightbulb me-2"></i>
+                Example Goals to Try:
+            </h4>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="card border-primary">
+                        <div class="card-body">
+                            <h6 class="card-title">Travel Planning</h6>
+                            <p class="card-text small">
+                                "Plan a 2-day vegetarian food tour in Hyderabad"
+                            </p>
+                            <button class="btn btn-outline-primary btn-sm" onclick="fillExample(this.previousElementSibling.textContent)">
+                                Try This
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="card border-success">
+                        <div class="card-body">
+                            <h6 class="card-title">Learning Plan</h6>
+                            <p class="card-text small">
+                                "Organise a 5-step daily study routine for learning Python"
+                            </p>
+                            <button class="btn btn-outline-success btn-sm" onclick="fillExample(this.previousElementSibling.textContent)">
+                                Try This
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/plans" class="btn btn-outline-secondary">
+                <i class="fas fa-history me-2"></i>
+                View Past Plans
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Loading Modal -->
+<div class="modal fade" id="loadingModal" tabindex="-1" data-bs-backdrop="static">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body text-center p-5">
+                <div class="spinner-border text-primary mb-3" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h5>Creating Your Plan...</h5>
+                <p class="text-muted">This may take a few moments while we research and structure your plan.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function fillExample(text) {
+    document.getElementById('goal').value = text;
+    document.getElementById('goal').focus();
+}
+
+document.getElementById('goalForm').addEventListener('submit', function() {
+    const modal = new bootstrap.Modal(document.getElementById('loadingModal'));
+    modal.show();
+});
+</script>
+{% endblock %}
