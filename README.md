@@ -113,6 +113,28 @@ python main.py
 
 The application will be available at `http://localhost:8000`
 
+## 📸 Screenshots
+
+### Application Interface
+![Home Page](screenshot/Screenshot_6.png)
+*AI Task Planning Agent home page with feature overview*
+
+### Plan Management
+![Plans List](screenshot/Screenshot_4.png)
+*Interactive plans dashboard showing generated plans with details*
+
+### API Documentation
+![API Documentation](screenshot/Screenshot_7.png)
+*Complete API documentation with interactive endpoints*
+
+### Export Features
+![Export Options](screenshot/Screenshot_8.png)
+*Multi-format export capabilities and data schemas*
+
+### Statistics Dashboard
+![Statistics](screenshot/Screenshot_5.png)
+*Real-time database statistics and metrics*
+
 ## 🎯 Example Goals
 
 Here are the example goals from the assignment that you can test:
